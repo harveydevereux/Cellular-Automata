@@ -6,15 +6,15 @@ class Menubar(tk.Menu):
     def __init__(self,parent,*args,**kwargs):
         self.parent=parent
         tk.Menu.__init__(self,parent,*args,**kwargs)
-        
+
         # initialise menu vars
         self.menu_file=tk.Menu(self)
         self.menu_simulation=tk.Menu(self)
         self.menu_about=tk.Menu(self)
-        
+
         self.menu_file.add_command(label="Save", command=self.save_gridfile)
         self.menu_file.add_command(label="Open", command=self.open_gridfile)
-        
+
         #collect them in a list
         menus = ((self.menu_file,"File"),
                  (self.menu_simulation,"Simulation"),
@@ -26,8 +26,8 @@ class Menubar(tk.Menu):
         pass
     def open_gridfile(self):
         pass
-        
-        
+
+
 class Cell(tk.Button):
     def __init__(self,parent,*args,**kwargs):
         tk.Button.__init__(self, parent, bg="white",activebackground="white",
@@ -41,19 +41,19 @@ class Cell(tk.Button):
         else:
             self.configure(bg='white')
             self.configure(activebackground='white')
-    
+
 
 class App(tk.Canvas):
     def __init__(self, parent, n_rows, n_cols, *args, **kwargs):
         self.parent = parent
         tk.Canvas.__init__(self,parent, *args, **kwargs)
-        
+
         self.menubar = Menubar(self)
         self.parent['menu'] = self.menubar
-        
+
         self.n_rows = n_rows
         self.n_cols = n_cols
-        
+
         self.cells = list()
         for i in range(0,self.n_rows*self.n_cols):
             self.cells.append(Cell(self))
@@ -62,10 +62,10 @@ class App(tk.Canvas):
         self.grid_matrix = np.zeros((n_rows,n_cols))
         self.animate()
     def animate(self):
-        r = np.random.randint(0,len(self.cells)-2)
+        r = np.random.randint(0,len(self.cells))
         self.cells[r].change_state()
         self.after(1,self.animate)
-        
+
 
 if __name__ == "__main__":
     root = tk.Tk()
