@@ -6,8 +6,8 @@ TODO:
 -data storage format
 -save grid
 -open grid
--automata simulation
--movies
+-automata simulation --- almost
+-movies/gif
 
 0-1: Basic shape of program, and (random) animation of tiles!
 
