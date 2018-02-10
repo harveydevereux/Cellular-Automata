@@ -1,0 +1,17 @@
+import python ;
+
+lib boost_numpy
+  :
+  : <search>/usr/local/lib
+    <include>/usr/local/include
+    ;
+
+project array
+  : requirements
+    <include>/usr/local/include
+    <library>boost_numpy
+    <location>.
+    ;
+
+python-extension cellular_automaton : cellular_automaton.cpp cellular_automaton.h boost_numpy /python//python ;
+#run-test test_array_ext : array_ext test_array_ext.py ;
