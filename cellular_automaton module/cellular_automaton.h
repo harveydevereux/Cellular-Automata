@@ -1,4 +1,3 @@
-#include <iostream>
 #include <Eigen/Dense>
 using Eigen::MatrixXd;
 
@@ -37,17 +36,23 @@ bool alive_Moore(const MatrixXd & M, int i, int j, int threshold)
   return (count>=threshold);
 }
 
-/*
-void simulate(MatrixXd & M, int threshold)
+bool alive_conway(const MatrixXd & M, int i, int j)
 {
-  MatrixXd I = incase(M);
-  int Row = I.innerSize();
-  int Col = I.outerSize();
-  for (int i = 0; i < I.innerSize()-1; i++)
-    for (int j = 0; j < I.outerSize()-1; j++)
-      if (i != 0 && j != 0)
-        M(i-1,j-1) = alive_Moore(I,i-1,j-1,threshold);
+  int count = 0;
+  count = ((M.block(i,j,3,3)).sum()-(M.block(i,j,3,3))(1,1));
+  if (M(i,j) == 1){
+    if (count < 2)
+      return 0;
+    if (count == 2 || count == 3)
+      return 1;
+    if (count > 3)
+      return 0;
+  }
+  else if (M(i,j) == 0){
+    if (count == 3)
+      return 1;
+  }
+  return 0;
 }
-*/
 
 }

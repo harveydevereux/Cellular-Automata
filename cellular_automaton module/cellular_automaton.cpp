@@ -3,6 +3,8 @@
 #include <boost/python/class.hpp>
 #include <boost/python/numpy.hpp>
 #include <stdexcept>
+#include <string>
+#include <iostream>
 
 #include "cellular_automaton.h"
 
@@ -27,20 +29,24 @@ public:
       std::cout << e.what();
     }
   }
-  void next_gen(int threshold=5)
+  void next_gen(int threshold)
   {
     MatrixXd I = cellular_automaton::incase(this->grid_matrix);
     for (int i = 0; i < I.innerSize()-1; i++)
       for (int j = 0; j < I.outerSize()-1; j++)
-        if (i != 0 && j != 0)
-          (this->grid_matrix)(i-1,j-1) = cellular_automaton::alive_Moore(I,i-1,j-1,threshold);
+        if (i != 0 && j != 0){
+          if (this->criterion == "Moore")
+            (this->grid_matrix)(i-1,j-1) = cellular_automaton::alive_Moore(I,i-1,j-1,threshold);
+          if (this->criterion == "Conway")
+            (this->grid_matrix)(i-1,j-1) = cellular_automaton::alive_conway(I,i-1,j-1);
+        }
     this->py_grid = matrix_to_nd_array(this->grid_matrix);
   }
   np::ndarray get_grid()
   {
     return this->py_grid;
   }
-  np::ndarray get_next_gen(int threshold=5)
+  np::ndarray get_next_gen(int threshold)
   {
     next_gen(threshold);
     return this->py_grid;
@@ -49,6 +55,10 @@ public:
   {
     this->py_grid = py_arr;
     this->grid_matrix = nd_array_to_matrix(py_arr);
+  }
+  void set_model(std::string name)
+  {
+    this->criterion = name;
   }
 protected:
     MatrixXd nd_array_to_matrix(np::ndarray & py_array)
@@ -71,6 +81,7 @@ protected:
     }
     np::ndarray py_grid;
     MatrixXd grid_matrix;
+    std::string criterion = "Moore";
 };
 
 using namespace boost::python;
@@ -82,6 +93,7 @@ BOOST_PYTHON_MODULE(cellular_automaton)
     .def("get_grid",&Grid::get_grid)
     .def("get_next_gen",&Grid::get_next_gen)
     .def("set_grid",&Grid::set_grid)
+    .def("set_model",&Grid::set_model)
   ;
 
 }
