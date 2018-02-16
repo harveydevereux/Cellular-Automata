@@ -64,7 +64,7 @@ class App(tk.Frame, tk.Toplevel):
         self.pause_flag=False
 
         self.pause_button = tk.Checkbutton(self, text="Pause", command=lambda: self.pause(), variable=self.pause_flag)
-        self.pause_button.grid(sticky='w',row=0,column=n)
+        self.pause_button.grid(sticky='w',row=0,column=n,rowspan=2)
 
         self.threshold_scale = tk.Scale(self,orient=tk.VERTICAL, from_=0,to_=8,variable=self.threshold,label="Neighbours")
         self.threshold_scale.set(self.threshold)
@@ -74,13 +74,12 @@ class App(tk.Frame, tk.Toplevel):
         self.model_type.set("Moore")
         self.moore_button = tk.Radiobutton(self, text='Moore', variable=self.model_type, value="Moore")
         self.conway_button = tk.Radiobutton(self, text='Game of Life', variable=self.model_type, value="Conway")
-        self.moore_button.grid(sticky='w',row=0,column=n+1)
-        self.conway_button.grid(sticky='w',row=0,column=n+2)
+        self.moore_button.grid(sticky='w',row=0,column=n+1,rowspan=2)
+        self.conway_button.grid(sticky='w',row=0,column=n+2, rowspan=2)
 
         self.proc = mp.Process(target=self.load_cells)
         self.proc.start()
         self.proc.join()
-        self.mainloop()
 
     def exit(self):
         for i in range(0,len(self.cells)):
@@ -107,6 +106,7 @@ class App(tk.Frame, tk.Toplevel):
         e = time.time()
         print(e-s)
         self.mainloop()
+
 
     def pause(self):
         if (self.pause_flag == True):

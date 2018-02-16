@@ -1,4 +1,0 @@
-BOOST_ROOT = /usr/local/bin/include ;
-BOOST_BUILD = [ MATCH --boost-build=(.*) : $(ARGV) ] ;
-BOOST_BUILD ?= /home/harvey/Documents/Python/C++_Extensions/boost_1_66_0/tools/build/src ;
-boost-build $(BOOST_BUILD) ;
