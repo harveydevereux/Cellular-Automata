@@ -29,6 +29,10 @@ public:
       std::cout << e.what();
     }
   }
+  /*
+    butterflies where a mistake! get them with i-1,j-1 passed to alive_conway,
+    and also changing JUST the block indexes to i,j in alive_conway.
+  */
   void next_gen(int threshold)
   {
     MatrixXd I = cellular_automaton::incase(this->grid_matrix);
@@ -38,7 +42,7 @@ public:
           if (this->criterion == "Moore")
             (this->grid_matrix)(i-1,j-1) = cellular_automaton::alive_Moore(I,i-1,j-1,threshold);
           if (this->criterion == "Conway")
-            (this->grid_matrix)(i-1,j-1) = cellular_automaton::alive_conway(I,i-1,j-1);
+            (this->grid_matrix)(i-1,j-1) = cellular_automaton::alive_conway(I,i,j);
         }
     this->py_grid = matrix_to_nd_array(this->grid_matrix);
   }

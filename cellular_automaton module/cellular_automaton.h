@@ -39,7 +39,7 @@ bool alive_Moore(const MatrixXd & M, int i, int j, int threshold)
 bool alive_conway(const MatrixXd & M, int i, int j)
 {
   int count = 0;
-  count = ((M.block(i,j,3,3)).sum()-(M.block(i,j,3,3))(1,1));
+  count = ((M.block(i-1,j-1,3,3)).sum()-(M.block(i-1,j-1,3,3))(1,1));
   if (M(i,j) == 1){
     if (count < 2)
       return 0;

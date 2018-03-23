@@ -10,13 +10,16 @@ import time
 ##############
 ##re-organise
 #############
-n=10
+dim=10
+size=25
 parser = argparse.ArgumentParser(description='grid size')
-parser.add_argument('integer',metavar=n,type=int)
-n=parser.parse_args().integer
+parser.add_argument('dim',metavar=dim,type=int)
+parser.add_argument('size',metavar=size,type=int)
+dim=parser.parse_args().dim
+size=parser.parse_args().size
 
 
-A =  np.random.randint(0,2,(n,n))
+A =  np.random.randint(0,2,(dim,dim))
 Grid_obj = Grid(A)
 
 Dynamic_windows = []
@@ -58,24 +61,24 @@ class App(tk.Frame, tk.Toplevel):
 
         self.speed_scale = tk.Scale(self, orient=tk.VERTICAL, from_=0.1, to_=10,variable=self.speed, label="Seconds",resolution=0.1)
         self.speed_scale.set(self.speed)
-        self.speed_scale.grid(sticky='nw',row=1,column=n, rowspan=10)
+        self.speed_scale.grid(sticky='nw',row=1,column=dim, rowspan=10)
 
 
         self.pause_flag=False
 
         self.pause_button = tk.Checkbutton(self, text="Pause", command=lambda: self.pause(), variable=self.pause_flag)
-        self.pause_button.grid(sticky='w',row=0,column=n,rowspan=2)
+        self.pause_button.grid(sticky='w',row=0,column=dim,rowspan=2)
 
         self.threshold_scale = tk.Scale(self,orient=tk.VERTICAL, from_=0,to_=8,variable=self.threshold,label="Neighbours")
         self.threshold_scale.set(self.threshold)
-        self.threshold_scale.grid(sticky='nw',row=1,column=n+1,rowspan=10)
+        self.threshold_scale.grid(sticky='nw',row=1,column=dim+1,rowspan=10)
 
         self.model_type = tk.StringVar()
         self.model_type.set("Moore")
         self.moore_button = tk.Radiobutton(self, text='Moore', variable=self.model_type, value="Moore")
         self.conway_button = tk.Radiobutton(self, text='Game of Life', variable=self.model_type, value="Conway")
-        self.moore_button.grid(sticky='w',row=0,column=n+1,rowspan=2)
-        self.conway_button.grid(sticky='w',row=0,column=n+2, rowspan=2)
+        self.moore_button.grid(sticky='w',row=0,column=dim+1,rowspan=2)
+        self.conway_button.grid(sticky='w',row=0,column=dim+2, rowspan=2)
 
         self.proc = mp.Process(target=self.load_cells)
         self.proc.start()
@@ -93,7 +96,7 @@ class App(tk.Frame, tk.Toplevel):
         s = time.time()
         for i in range(0,self.n_rows*self.n_cols):
             print(i)
-            self.cells.append(Cell(self,image=self.blank,width=10,height=10))
+            self.cells.append(Cell(self,image=self.blank,width=size,height=size))
             row,col = divmod(i,self.n_cols)
             self.cells[i].grid(sticky='nsew', row=row, column=col)
             if (self.grid_matrix[row,col]==1):
@@ -117,7 +120,7 @@ class App(tk.Frame, tk.Toplevel):
 
 
     def get_random_grid(self):
-        self.grid_matrix = np.random.randint(0,2,(n,n))
+        self.grid_matrix = np.random.randint(0,2,(dim,dim))
         Grid_obj.set_grid(self.grid_matrix)
         self.update_cells()
 
@@ -234,4 +237,4 @@ class Cell(tk.Button, App):
 if __name__ == "__main__":
     T = tk.Tk()
     T.withdraw()
-    main = App(n_rows=n,n_cols=n)
+    main = App(n_rows=dim,n_cols=dim)
