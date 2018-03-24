@@ -1,5 +1,3 @@
-# Grid
-
 ## Fun project I used to learn about boost/python and Tkinter
 
 ### Not well optimised...
