@@ -1,0 +1,152 @@
+<html>
+<head>
+<style>
+.button {
+  background-color: black;
+  border: none;
+  color: white;
+  padding: none;
+  height: 25px;
+  width: 50px;
+  display: block;
+  float: left;
+}
+.start_button {
+  background-color: green;
+  border: none;
+  color: black;
+}
+.stop_button {
+  background-color: red;
+  border: none;
+  color: black;
+}
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+}
+
+.active, .accordion:hover {
+    background-color: #ccc;
+}
+
+.accordion:after {
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+
+.active:after {
+    content: "\2212";
+}
+
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+.drop-content-button {
+  background-color: #eee;
+  border: none;
+  color: black;
+  width: 100%;
+  display: block;
+  float: left;
+}
+.dropbtn {
+    background-color: #eee;
+    color: black;
+    padding: none;
+    height: 25px;;
+    display: block;
+    float: left;
+    cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #ccc;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.show {display:block;}
+</style>
+</head>
+<body>
+
+  <div id="buttons"> <input type="button" id="start" class="button start_button" value="Start" />
+    <input type="button" id="stop" class="button stop_button" value="Stop" />
+    <input type="button" id="clear" class="button stop_button" value="Clear" />s
+   </div>
+     <script>
+     function show() {
+         document.getElementById("Dropdown").classList.toggle("show");
+     }
+
+     window.onclick = function(event) {
+       if (!event.target.matches('.dropbtn')) {
+
+         var dropdowns = document.getElementsByClassName("dropdown-content");
+         var i;
+         for (i = 0; i < dropdowns.length; i++) {
+           var openDropdown = dropdowns[i];
+           if (openDropdown.classList.contains('show')) {
+             openDropdown.classList.remove('show');
+           }
+         }
+       }
+     }
+     </script>
+
+  <div id="container"></div>
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight){
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+  });
+}
+</script>
+
+<script src="https://cdn.rawgit.com/konvajs/konva/1.7.6/konva.min.js"></script>
+
+<script src="cellular-automaton.js"></script>
+
+</div>
+
+
+</body></html>
